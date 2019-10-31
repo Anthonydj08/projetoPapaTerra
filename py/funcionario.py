@@ -15,7 +15,7 @@ def inserirPassageiro():
       voo = csv.reader(csvfile)
       for row in voo:
           tabela2.append(row)
-          passageiros = DataFrame(tabela2, columns=['cod', 'nome', 'cpf', 'telefone', 'email','valorgasto'])
+          passageiros = DataFrame(tabela2, columns=['cod', 'nome', 'cpf', 'telefone', 'email'])
 
   print(voos)
   codVoo = input('Código do Voo ')
@@ -24,10 +24,10 @@ def inserirPassageiro():
   codPassageiro = input('Código do Passageiro ')
   numeroAssento = input('Numero do assento ')
   classePassageiro = input('Classe do passageiro ')
-
+  valorGasto = 0
   with open('voos/'+codVoo+'.csv', 'a') as voo:
       writer = csv.writer(voo)
-      writer.writerow([codVoo, codPassageiro, classePassageiro, numeroAssento])
+      writer.writerow([codVoo, codPassageiro, classePassageiro, numeroAssento, valorGasto])
       voo.close()
  
 
@@ -51,11 +51,10 @@ def cadastrarPassageiro():
   cpf = input('CPF do passageiro ')
   Telefone = int(input('Telefone do passageiro '))
   email = input('Email do passageiro ')
-  valorGasto = 0
   
   with open('csv/passageiro.csv', 'a') as passageiro:
     writer = csv.writer(passageiro)
-    writer.writerow([codPassageiro, nome, cpf, Telefone, email, valorGasto])
+    writer.writerow([codPassageiro, nome, cpf, Telefone, email])
     passageiro.close()
 
 def func():
