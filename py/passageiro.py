@@ -1,5 +1,3 @@
-import csv
-
 def economica():
   sair = False
   while (sair == False):
