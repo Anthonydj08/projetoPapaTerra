@@ -30,7 +30,7 @@ def criarBancoDeDados():
 def cadastrarVoo2(aeroPartida, horarioSaida, aeroDestino, horarioChegada, quantidadeAssentos):
   wb = load_workbook('BD.xlsx')
   sheet = wb["Voos"]
-
+  
   codVoo = sheet.max_row
   
   sheet.append((codVoo, aeroPartida, horarioSaida, aeroDestino, horarioChegada, quantidadeAssentos))

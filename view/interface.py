@@ -1,4 +1,5 @@
 import tkinter as tk
+from tkinter import *
 import py.funcionario
 LARGE_FONT= ("Verdana", 12)
 
@@ -83,51 +84,89 @@ class cadastrarVoo(tk.Frame):
         tk.Frame.__init__(self, parent)
         def add_voo():
             py.funcionario.cadastrarVoo2(aerop_text.get(), horas_text.get(), aerod_text.get(), horac_text.get(), quant_text.get())
+        def limparTexto():
+            aerop_entry.delete(0, tk.END)
+            horas_entry.delete(0, tk.END)
+            aerod_entry.delete(0, tk.END)
+            horac_entry.delete(0, tk.END)
+            quant_entry.delete(0, tk.END)
+        def select_item(event):
+            try:
+                global item_selecionado
+                index = voos_list.curselection()[0]
+                item_selecionado = voos_list.get(index)
+
+                aerop_entry.delete(0, tk.END)
+                aerop_entry.insert(tk.END, item_selecionado[1])
+                horas_entry.delete(0, tk.END)
+                horas_entry.insert(tk.END, item_selecionado[2])
+                aerod_entry.delete(0, tk.END)
+                aerod_entry.insert(tk.END, item_selecionado[3])
+                horac_entry.delete(0, tk.END)
+                horac_entry.insert(tk.END, item_selecionado[4])
+                quant_entry.delete(0, tk.END)
+                quant_entry.insert(tk.END, item_selecionado[5])
+            except IndexError:
+                pass
          #aeroportoPartida
         aerop_text = tk.StringVar()
         aerop_label = tk.Label(self, text="Aeroporto de Partida", font=('bold', 14))
-        aerop_label.grid(row=0, column=0)
+        aerop_label.grid(row=1, column=0, sticky=W)
         aerop_entry = tk.Entry(self, textvariable=aerop_text)
-        aerop_entry.grid(row=0, column=1)
+        aerop_entry.grid(row=1, column=1)
          #horarioSaida
         horas_text = tk.StringVar()
         horas_label = tk.Label(self, text="Horário de saída", font=('bold', 14), pady=20)
-        horas_label.grid(row=1, column=0)
+        horas_label.grid(row=2, column=0, sticky=W)
         horas_entry = tk.Entry(self, textvariable=horas_text)
-        horas_entry.grid(row=1, column=1)
+        horas_entry.grid(row=2, column=1)
          #aeroportoDestino
         aerod_text = tk.StringVar()
         aerod_label = tk.Label(self, text="Aeroporto de destino", font=('bold', 14))
-        aerod_label.grid(row=0, column=2)
+        aerod_label.grid(row=1, column=2, sticky=W)
         aerod_entry = tk.Entry(self, textvariable=aerod_text)
-        aerod_entry.grid(row=0, column=3)
+        aerod_entry.grid(row=1, column=3)
          #horarioChegada
         horac_text = tk.StringVar()
         horac_label = tk.Label(self, text="Horário de chegada", font=('bold', 14))
-        horac_label.grid(row=1, column=2)
+        horac_label.grid(row=2, column=2, sticky=W)
         horac_entry = tk.Entry(self, textvariable=horac_text)
-        horac_entry.grid(row=1, column=3)
+        horac_entry.grid(row=2, column=3)
          #quantidadeAssentos
         quant_text = tk.StringVar()
         quant_label = tk.Label(self, text="Número de assentos", font=('bold', 14))
-        quant_label.grid(row=2, column=2)
+        quant_label.grid(row=3, column=0)
         quant_entry = tk.Entry(self, textvariable=quant_text)
-        quant_entry.grid(row=2, column=3)
+        quant_entry.grid(row=3, column=1)
         #botões
         inserir_btn = tk.Button(self, text="Adicionar voo", width=12, command=add_voo)
-        inserir_btn.grid(row=3, column=0, pady=20)
+        inserir_btn.grid(row=3, column=2)
+
+        remover_btn = tk.Button(self, text="Remover voo", width=12, command=add_voo)
+        remover_btn.grid(row=3, column=3)
+
+        limpar_btn = tk.Button(self, text="Limpar tela", width=12, command=limparTexto)
+        limpar_btn.grid(row=4, column=3, sticky=W)
+
+        voltar_btn = tk.Button(self, text="Voltar", command=lambda: controller.show_frame(telaFuncionario))
+        voltar_btn.grid(row=0, column=0, sticky=W)
+
 
 
         #lista de voos
         voos_list = tk.Listbox(self, height=8, width=50, border=0)
-        voos_list.grid(row=4, column=0, columnspan=7, rowspan=6, pady=20, padx=20)
+        voos_list.grid(row=4, column=0, columnspan=3, rowspan=6, pady=20, padx=20)
         
         #scroll
         scrollbar = tk.Scrollbar(self)
-        scrollbar.grid(row=4, column=3)
+        scrollbar.grid(row=4, column=2)
         #set scroll to list
         voos_list.configure(yscrollcommand= scrollbar.set)
         scrollbar.configure(command=voos_list.yview)
+
+        voos_list.bind('<<ListboxSelect>>', select_item)
+
+
 
         def criarLista():
             voos = py.funcionario.listarVoos()
@@ -154,5 +193,5 @@ class telaCliente(tk.Frame):
 
 app = SeaofBTCapp()
 app.title('Aeroporto Papa Terra')
-app.geometry('700x350')
+app.geometry('700x300')
 app.mainloop()
