@@ -13,17 +13,14 @@ class SeaofBTCapp(tk.Tk):
         container.pack(side="top", fill="both", expand = True)
 
         container.grid_rowconfigure(0, weight=1)
-        container.grid_columnconfigure(0, weight=1)
+        container.grid_columnconfigure(0, weight=1)       
         
-
         self.frames = {}
 
         for F in (StartPage, telaFuncionario, cadastrarVoo, telaCliente):
 
             frame = F(container, self)
-
             self.frames[F] = frame
-
             frame.grid(row=0, column=0, sticky="nsew")
 
         self.show_frame(StartPage)
@@ -32,12 +29,14 @@ class SeaofBTCapp(tk.Tk):
 
         frame = self.frames[cont]
         frame.tkraise()
+        
 
         
 class StartPage(tk.Frame):
 
     def __init__(self, parent, controller):
-        tk.Frame.__init__(self,parent)
+        tk.Frame.__init__(self,parent, bg='#6495ED')
+
         label = tk.Label(self, text="Bem vindo ao Aeroporto Papa Terra", font=LARGE_FONT)
         label.pack(pady=10,padx=10)
 
@@ -151,8 +150,6 @@ class cadastrarVoo(tk.Frame):
         voltar_btn = tk.Button(self, text="Voltar", command=lambda: controller.show_frame(telaFuncionario))
         voltar_btn.grid(row=0, column=0, sticky=W)
 
-
-
         #lista de voos
         voos_list = tk.Listbox(self, height=8, width=50, border=0)
         voos_list.grid(row=4, column=0, columnspan=3, rowspan=6, pady=20, padx=20)
@@ -165,8 +162,6 @@ class cadastrarVoo(tk.Frame):
         scrollbar.configure(command=voos_list.yview)
 
         voos_list.bind('<<ListboxSelect>>', select_item)
-
-
 
         def criarLista():
             voos = py.funcionario.listarVoos()
@@ -189,8 +184,6 @@ class telaCliente(tk.Frame):
                             command=lambda: controller.show_frame(telaFuncionario))
         button2.pack()
         
-
-
 app = SeaofBTCapp()
 app.title('Aeroporto Papa Terra')
 app.geometry('700x300')
