@@ -27,7 +27,7 @@ def criarBancoDeDados():
   arquivo_excel.save("BD.xlsx")
   
   
-def cadastrarVoo2(aeroPartida, horarioSaida, aeroDestino, horarioChegada, quantidadeAssentos):
+def cadastrarVoo(aeroPartida, horarioSaida, aeroDestino, horarioChegada, quantidadeAssentos):
   wb = load_workbook('BD.xlsx')
   sheet = wb["Voos"]
   
@@ -45,7 +45,17 @@ def cadastrarVoo2(aeroPartida, horarioSaida, aeroDestino, horarioChegada, quanti
 
   wb.save("BD.xlsx")
 
-def cadastrarVoo():
+def cadastrarPassageiro(nome, cpf, telefone, email):
+  wb = load_workbook('BD.xlsx')
+  sheet = wb["Passageiros"]
+  
+  codPassageiro = sheet.max_row
+  
+  sheet.append((codPassageiro, nome, cpf, telefone, email))
+
+  wb.save("BD.xlsx")
+
+def cadastrarVooOld():
   wb = load_workbook('BD.xlsx')
   sheet = wb["Voos"]
 
@@ -68,7 +78,7 @@ def cadastrarVoo():
 
   wb.save("BD.xlsx")
 
-def cadastrarPassageiro():
+def cadastrarPassageiroOld():
   wb = load_workbook('BD.xlsx')
   sheet = wb["Passageiros"]
 
@@ -82,7 +92,7 @@ def cadastrarPassageiro():
 
   wb.save("BD.xlsx")
 
-def inserirPassageiro():
+def inserirPassageiroOld():
   wb = load_workbook('BD.xlsx')
 
   sheet = wb["Voos"]
@@ -148,6 +158,20 @@ def inserirPassageiro():
 
   wb.save("BD.xlsx")
 
+def inserirPassageiro(codVoo, codPassageiro, numeroAssento, classePassageiro):
+  wb = load_workbook('BD.xlsx')
+  sheet = wb['Voo'+str(codVoo)]
+  if(classePassageiro == 1):
+      classePassageiro = "Econômica"
+  elif(classePassageiro == 2):
+      classePassageiro = "Executiva"
+  else:
+      classePassageiro = "Primeira"
+  valorGasto = 0
+  sheet.append((codVoo, codPassageiro, numeroAssento, classePassageiro, valorGasto))
+
+  wb.save("BD.xlsx")
+
 def listarVoos():
   wb = load_workbook('BD.xlsx')
   sheet = wb["Voos"]
@@ -161,6 +185,20 @@ def listarVoos():
       linhaV.append(sheet.cell(column=j, row=i).value)
     voos.insert(max_linha, linhaV)
   return voos
+
+def listarPassageiros():
+  wb = load_workbook('BD.xlsx')
+  sheet = wb["Passageiros"]
+  max_linha = sheet.max_row + 1
+  max_coluna = sheet.max_column + 1
+  matrizV = []
+  passageiros = []
+  for i in range(1, max_linha):
+    linhaV = []
+    for j in range(1, max_coluna):
+      linhaV.append(sheet.cell(column=j, row=i).value)
+    passageiros.insert(max_linha, linhaV)
+  return passageiros
 
 def func():
   sair = False
