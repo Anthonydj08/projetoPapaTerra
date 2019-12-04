@@ -1,6 +1,7 @@
 import tkinter as tk
 from tkinter import *
 import py.funcionario
+import py.passageiro
 LARGE_FONT= ("Verdana", 12)
 
 class papaTerra(tk.Tk):
@@ -17,7 +18,7 @@ class papaTerra(tk.Tk):
         
         self.frames = {}
 
-        for F in (StartPage, telaFuncionario, cadastrarVoo, cadastrarPassageiro, inserirPassageiro, telaCliente):
+        for F in (StartPage, telaFuncionario, cadastrarVoo, cadastrarPassageiro, inserirPassageiro):
 
             frame = F(container, self)
 
@@ -41,14 +42,7 @@ class StartPage(tk.Frame):
         button = tk.Button(self, text="Tela funcionario",
                             command=lambda: controller.show_frame(telaFuncionario))
         button.pack()
-        button = tk.Button(self, text="Tela cliente",
-                            command=lambda: controller.show_frame(telaCliente))
-        button.pack()
-        button = tk.Button(self, text="Sair",
-                            command=lambda: controller.show_frame(telaFuncionario))
-        button.pack()
-
-
+       
 
 class telaFuncionario(tk.Frame):
 
@@ -71,10 +65,6 @@ class telaFuncionario(tk.Frame):
         button4 = tk.Button(self, text="Inserir Passageiro em um Voo",
                             command=lambda: controller.show_frame(inserirPassageiro))
         button4.pack()
-        button5 = tk.Button(self, text="Informações sobre Voos",
-                            command=lambda: controller.show_frame(cadastrarVoo))
-        button5.pack()
-
 
 class cadastrarVoo(tk.Frame):
     def __init__(self, parent, controller):
@@ -140,11 +130,8 @@ class cadastrarVoo(tk.Frame):
         inserir_btn = tk.Button(self, text="Adicionar voo", width=12, command=add_voo)
         inserir_btn.grid(row=3, column=2)
 
-        remover_btn = tk.Button(self, text="Remover voo", width=12, command=add_voo)
-        remover_btn.grid(row=3, column=3)
-
         limpar_btn = tk.Button(self, text="Limpar tela", width=12, command=limparTexto)
-        limpar_btn.grid(row=4, column=3)
+        limpar_btn.grid(row=3, column=3)
 
         voltar_btn = tk.Button(self, text="Voltar", command=lambda: controller.show_frame(telaFuncionario))
         voltar_btn.grid(row=0, column=0, sticky=W)
@@ -156,8 +143,6 @@ class cadastrarVoo(tk.Frame):
         scrollbar = tk.Scrollbar(self)
         scrollbar.grid(row=4, column=2, sticky=E)
 
-
-       
         #set scroll to list
         voos_list.configure(yscrollcommand= scrollbar.set)
         scrollbar.configure(command=voos_list.yview)
@@ -227,11 +212,8 @@ class cadastrarPassageiro(tk.Frame):
         inserir_btn = tk.Button(self, text="Adicionar passageiro", width=18, command=add_passageiro)
         inserir_btn.grid(row=3, column=0, padx=10)
 
-        remover_btn = tk.Button(self, text="Remover passageiro", width=18, command=add_passageiro)
-        remover_btn.grid(row=3, column=1, padx=10)
-
         limpar_btn = tk.Button(self, text="Limpar tela", width=12, command=limparTexto)
-        limpar_btn.grid(row=3, column=2, sticky=W,padx=10)
+        limpar_btn.grid(row=3, column=1, sticky=W,padx=10)
 
         voltar_btn = tk.Button(self, text="Voltar", command=lambda: controller.show_frame(telaFuncionario))
         voltar_btn.grid(row=0, column=0, sticky=W)
@@ -316,9 +298,6 @@ class inserirPassageiro(tk.Frame):
         inserir_btn = tk.Button(self, text="Inserir passageiro", width=18, command=inserir_passageiro)
         inserir_btn.grid(row=4, column=2, padx=10)
 
-        # remover_btn = tk.Button(self, text="Remover passageiro", width=18, command=inserir_passageiro)
-        # remover_btn.grid(row=3, column=3, padx=10)
-
         limpar_btn = tk.Button(self, text="Limpar tela", width=12, command=limparTexto)
         limpar_btn.grid(row=4, column=3, sticky=W,padx=10)
 
@@ -365,23 +344,9 @@ class inserirPassageiro(tk.Frame):
             for item in voos:
                 voos_list.insert(tk.END, item)
         criarListaVoos()
+     
 
 
-class telaCliente(tk.Frame):
-
-    def __init__(self, parent, controller):
-        tk.Frame.__init__(self, parent)
-        label = tk.Label(self, text="Tela cliente!!!", font=LARGE_FONT)
-        label.pack(pady=10,padx=10)
-
-        button1 = tk.Button(self, text="Back to Home",
-                            command=lambda: controller.show_frame(StartPage))
-        button1.pack()
-
-        button2 = tk.Button(self, text="Page One",
-                            command=lambda: controller.show_frame(telaFuncionario))
-        button2.pack()
-        
 app = papaTerra()
 app.title('Aeroporto Papa Terra')
 app.geometry('750x500')

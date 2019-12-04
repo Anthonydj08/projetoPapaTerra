@@ -167,6 +167,7 @@ def inserirPassageiro(codVoo, codPassageiro, numeroAssento, classePassageiro):
       classePassageiro = "Executiva"
   else:
       classePassageiro = "Primeira"
+      
   valorGasto = 0
   sheet.append((codVoo, codPassageiro, numeroAssento, classePassageiro, valorGasto))
 
@@ -200,19 +201,43 @@ def listarPassageiros():
     passageiros.insert(max_linha, linhaV)
   return passageiros
 
+def inserir_despesas(valor):
+  wb = load_workbook('BD.xlsx')
+
+  codVoo = input('Código do Voo ') 
+  BD = wb.get_sheet_by_name('Voo'+str(codVoo))
+  codPassageiro = input('Código do Passageiro ')
+
+  x = BD['E'+str(int(codPassageiro)+1)].value
+  print(x)
+  t = int(x) + int(valor)
+  print(t)
+  n = str(int(codPassageiro)+1)
+  BD['E'+n] = t
+ 
+  wb.save("BD.xlsx")
+
+def verificarDespesa():
+  wb = load_workbook('BD.xlsx')
+
+  codVoo = input('Código do Voo ') 
+  BD = wb.get_sheet_by_name('Voo'+str(codVoo))
+  codPassageiro = input('Código do Passageiro ')
+
+  x = BD['E'+str(int(codPassageiro)+1)].value
+  print(x)
+
 def func():
   sair = False
   while (sair == False):
-    op = int(input('Digite:\n1 - Cadastrar Voo \n2 - Cadastrar Passageiro\n3 - Inserir Passageiro em um Voo\n4 - Verificar Lucro\n5 - Informações sobre Voos\n0 - Sair\n'))
+    op = int(input('Digite:\n1 - Cadastrar Voo \n2 - Cadastrar Passageiro\n3 - Inserir Passageiro em um Voo\n4 - Verificar Lucro\n0 - Sair\n'))
     if op == 1:
       cadastrarVoo()
     if op == 2:
       cadastrarPassageiro()
     if op == 3:
       inserirPassageiro()
-    # if op == 4:
-    #   verificarLucro()
-    # if op == 5:
-    #   infoVoo()
+    if op == 4:
+      verificarDespesa()
     elif op == 0:
       sair = True
